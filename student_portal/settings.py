@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-h5a3!)l(_tj!1%fg8!c^+0mh$jo8#_t+@$ahm*3f2d^2!#!@k-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['studentportal-utb9.onrender.com', 'localhost', '127.0.0.1']
 
 
 # Application definition
