@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<section class="hero">
+    <h1>📊 Analytics & Performance Dashboard</h1>
+    <p>Real-time insights into student performance and course statistics</p>
+</section>
+
+<!-- Key Metrics -->
+<section class="dashboard-stats">
+    <div class="stat-card">
+        <h3>👥 Total Students</h3>
+        <p class="stat-number">{{ total_students }}</p>
+    </div>
+    <div class="stat-card">
+        <h3>📚 Active Courses</h3>
+        <p class="stat-number">{{ total_courses }}</p>
+    </div>
+    <div class="stat-card">
+        <h3>⭐ Average Score</h3>
+        <p class="stat-number">{{ avg_marks }}%</p>
+    </div>
+    <div class="stat-card">
+        <h3>📈 Pass Rate</h3>
+        <p class="stat-number">{% if total_students > 0 %}{{ pass_count }}/{{ total_students }}{% else %}0{% endif %}</p>
+    </div>
+</section>
+
+<!-- Detailed Metrics -->
+<section class="content-section">
+    <h3>📋 Marks Performance Statistics</h3>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 30px; margin-top: 30px;">
+        <div style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 30px; border-radius: 12px; text-align: center;">
+            <p style="margin: 0; opacity: 0.9;">Highest Score</p>
+            <p style="font-size: 36px; font-weight: 800; margin: 10px 0;">{{ highest_marks }}</p>
+        </div>
+        <div style="background: linear-gradient(135deg, #f093fb, #f5576c); color: white; padding: 30px; border-radius: 12px; text-align: center;">
+            <p style="margin: 0; opacity: 0.9;">Lowest Score</p>
+            <p style="font-size: 36px; font-weight: 800; margin: 10px 0;">{{ lowest_marks }}</p>
+        </div>
+        <div style="background: linear-gradient(135deg, #4facfe, #00f2fe); color: white; padding: 30px; border-radius: 12px; text-align: center;">
+            <p style="margin: 0; opacity: 0.9;">Passed (≥50)</p>
+            <p style="font-size: 36px; font-weight: 800; margin: 10px 0;">{{ pass_count }}</p>
+        </div>
+        <div style="background: linear-gradient(135deg, #43e97b, #38f9d7); color: white; padding: 30px; border-radius: 12px; text-align: center;">
+            <p style="margin: 0; opacity: 0.9;">Failed (<50)</p>
+            <p style="font-size: 36px; font-weight: 800; margin: 10px 0;">{{ fail_count }}</p>
+        </div>
+    </div>
+</section>
+
+<!-- Top Students -->
+<section class="content-section">
+    <h3>🏆 Top 5 Performer Students</h3>
+    {% if top_students %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th>🥇 Rank</th>
+                <th>👤 Name</th>
+                <th>📚 Course</th>
+                <th>📊 Marks</th>
+                <th>👤 Age</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for student in top_students %}
+            <tr>
+                <td><strong>#{{ forloop.counter }}</strong></td>
+                <td>{{ student.name }}</td>
+                <td>{{ student.course }}</td>
+                <td><strong>{{ student.marks }}/100</strong></td>
+                <td>{{ student.age }} yrs</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p style="text-align: center; color: #666;">No students data available.</p>
+    {% endif %}
+</section>
+
+<!-- Course Performance -->
+<section class="content-section">
+    <h3>📚 Performance by Course</h3>
+    {% if course_stats %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th>📖 Course Name</th>
+                <th>👥 Enrolled Students</th>
+                <th>⭐ Average Marks</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for course in course_stats %}
+            <tr>
+                <td><strong>{{ course.course }}</strong></td>
+                <td><span style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 6px 12px; border-radius: 6px;">{{ course.count }} students</span></td>
+                <td><strong>{{ course.avg_marks|floatformat:2 }}/100</strong></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p style="text-align: center; color: #666;">No course data available.</p>
+    {% endif %}
+</section>
+
+<p style="text-align: center; margin-top: 40px;">
+    <a href="{% url 'students' %}" class="btn">View All Students</a>
+    <a href="{% url 'courses' %}" class="btn" style="margin-left: 10px;">View Courses</a>
+</p>
+
+{% endblock %}

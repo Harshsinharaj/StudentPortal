@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<section class="content-section">
+    <h2>📝 Assignments</h2>
+    
+    {% if user.is_staff or user.is_superuser %}
+        <a href="{% url 'create_assignment' %}" style="display: inline-block; padding: 10px 20px; background: #667eea; color: white; border-radius: 4px; text-decoration: none; margin-bottom: 20px;">➕ Create New Assignment</a>
+    {% endif %}
+    
+    <div style="margin-top: 20px;">
+        {% for assignment in assignments %}
+            <a href="{% url 'assignment_detail' assignment.id %}" style="display: block; padding: 20px; background: linear-gradient(135deg, #667eea, #764ba2); color: white; border-radius: 8px; text-decoration: none; margin-bottom: 15px; transition: all 0.3s;">
+                <h3 style="margin: 0 0 10px 0;">📄 {{ assignment.title }}</h3>
+                <p style="margin: 5px 0;">📚 Course: <strong>{{ assignment.course }}</strong></p>
+                <p style="margin: 5px 0;">⭐ Marks: <strong>{{ assignment.total_marks }}</strong></p>
+                <p style="margin: 5px 0;">📅 Due: <strong>{{ assignment.due_date|date:"M d, Y H:i" }}</strong></p>
+                <p style="margin: 5px 0; font-size: 0.9em; opacity: 0.9;">{{ assignment.description|truncatewords:20 }}</p>
+            </a>
+        {% empty %}
+            <p style="text-align: center; color: #666; padding: 30px;">No assignments yet</p>
+        {% endfor %}
+    </div>
+</section>
+
+{% endblock %}

@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<section class="hero">
+    <h1>📚 Available Courses</h1>
+    <p>Browse all active courses and their enrollment statistics</p>
+</section>
+
+<section class="content-section">
+    {% if courses %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th>📖 Course Name</th>
+                <th>👥 Enrolled Students</th>
+                <th>⭐ Average Score</th>
+                <th>🔍 Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for course in courses %}
+            <tr>
+                <td><strong style="font-size: 16px;">{{ course.name }}</strong></td>
+                <td>
+                    <span style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 8px 12px; border-radius: 6px; font-weight: 600;">
+                        {{ course.enrolled }} students
+                    </span>
+                </td>
+                <td>
+                    <strong style="font-size: 18px; color: {% if course.avg_marks >= 70 %}#15803d{% elif course.avg_marks >= 50 %}#f59e0b{% else %}#991b1b{% endif %};">
+                        {{ course.avg_marks }}%
+                    </strong>
+                </td>
+                <td>
+                    <a href="{% url 'search' %}?q={{ course.name }}" style="background: #667eea; color: white; padding: 8px 16px; border-radius: 6px; text-decoration: none; font-weight: 600; display: inline-block; transition: all 0.3s;" onmouseover="this.style.background='#764ba2'" onmouseout="this.style.background='#667eea'">
+                        View Students →
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <div style="text-align: center; padding: 60px 20px; background: #f9fafb; border-radius: 12px;">
+        <p style="font-size: 18px; color: #666;">📭 No courses available yet</p>
+    </div>
+    {% endif %}
+</section>
+
+<p style="text-align: center; margin-top: 40px;">
+    <a href="{% url 'students' %}" class="btn">View All Students</a>
+    <a href="{% url 'analytics' %}" class="btn" style="margin-left: 10px; background: linear-gradient(135deg, #4facfe, #00f2fe);">View Analytics</a>
+</p>
+
+{% endblock %}

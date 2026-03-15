@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<section class="hero">
+    <h1>🔐 Admin Control Panel</h1>
+    <p>Manage portal roles, permissions, and system settings</p>
+</section>
+
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 25px; margin-bottom: 40px;">
+    <div style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 30px; border-radius: 12px; text-align: center;">
+        <p style="margin: 0; opacity: 0.9; font-size: 14px;">👥 Total Users</p>
+        <p style="font-size: 40px; font-weight: 800; margin: 10px 0;">{{ total_users }}</p>
+    </div>
+    <div style="background: linear-gradient(135deg, #f093fb, #f5576c); color: white; padding: 30px; border-radius: 12px; text-align: center;">
+        <p style="margin: 0; opacity: 0.9; font-size: 14px;">🔑 Admin Users</p>
+        <p style="font-size: 40px; font-weight: 800; margin: 10px 0;">{{ total_admins }}</p>
+    </div>
+    <div style="background: linear-gradient(135deg, #4facfe, #00f2fe); color: white; padding: 30px; border-radius: 12px; text-align: center;">
+        <p style="margin: 0; opacity: 0.9; font-size: 14px;">👨‍🎓 Total Students</p>
+        <p style="font-size: 40px; font-weight: 800; margin: 10px 0;">{{ total_students }}</p>
+    </div>
+    <div style="background: linear-gradient(135deg, #43e97b, #38f9d7); color: white; padding: 30px; border-radius: 12px; text-align: center;">
+        <p style="margin: 0; opacity: 0.9; font-size: 14px;">📚 Active Courses</p>
+        <p style="font-size: 40px; font-weight: 800; margin: 10px 0;">{{ total_courses }}</p>
+    </div>
+</div>
+
+<section class="content-section">
+    <h2>📋 Admin Features</h2>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
+        <a href="/admin/" style="background: white; padding: 25px; border-radius: 12px; border: 2px solid #667eea; text-decoration: none; transition: all 0.3s; display: block;">
+            <p style="margin: 0 0 10px 0; font-weight: 700; color: #333; font-size: 18px;">⚙️ Django Admin Panel</p>
+            <p style="margin: 0; color: #666; font-size: 14px;">Manage users, students, and system settings</p>
+        </a>
+        
+        <a href="{% url 'students' %}" style="background: white; padding: 25px; border-radius: 12px; border: 2px solid #667eea; text-decoration: none; transition: all 0.3s; display: block;">
+            <p style="margin: 0 0 10px 0; font-weight: 700; color: #333; font-size: 18px;">👥 Manage Students</p>
+            <p style="margin: 0; color: #666; font-size: 14px;">View, edit, and delete student records</p>
+        </a>
+        
+        <a href="{% url 'export_csv' %}" style="background: white; padding: 25px; border-radius: 12px; border: 2px solid #667eea; text-decoration: none; transition: all 0.3s; display: block;">
+            <p style="margin: 0 0 10px 0; font-weight: 700; color: #333; font-size: 18px;">📥 Export Data</p>
+            <p style="margin: 0; color: #666; font-size: 14px;">Download student records as CSV file</p>
+        </a>
+    </div>
+</section>
+
+<section class="content-section">
+    <h2>📝 Access Control</h2>
+    <div style="background: #f3f6ff; padding: 20px; border-radius: 12px; border-left: 4px solid #667eea;">
+        <p style="margin: 0; color: #333; font-weight: 600;">Current Role: <span style="color: #667eea; font-size: 18px;">Administrator</span></p>
+        <p style="margin: 10px 0 0 0; color: #666; font-size: 14px;">You have full access to all portal features and management functions.</p>
+    </div>
+    
+    <h3 style="margin-top: 25px; color: #333;">User Roles & Permissions:</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Role</th>
+                <th>Students View</th>
+                <th>Add/Edit</th>
+                <th>Delete</th>
+                <th>Export/Import</th>
+                <th>Admin Panel</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Administrator</strong></td>
+                <td>✓</td>
+                <td>✓</td>
+                <td>✓</td>
+                <td>✓</td>
+                <td>✓</td>
+            </tr>
+            <tr>
+                <td><strong>Logged-in User</strong></td>
+                <td>✓</td>
+                <td>✓</td>
+                <td>✗</td>
+                <td>✓</td>
+                <td>✗</td>
+            </tr>
+            <tr>
+                <td><strong>Guest</strong></td>
+                <td>✗</td>
+                <td>✗</td>
+                <td>✗</td>
+                <td>✗</td>
+                <td>✗</td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+<p style="text-align: center; margin-top: 40px;">
+    <a href="{% url 'home' %}" class="btn">⬅️ Back to Home</a>
+</p>
+
+{% endblock %}

@@ -1,0 +1,153 @@
+{% extends 'base.html'%}
+{% load static %}
+
+{% block content %}
+
+<section class="hero">
+    <h1>🎓 Welcome to Student Management Portal</h1>
+    <p>Manage, track, and evaluate student performance all in one comprehensive dashboard</p>
+    <!-- images removed per request -->
+    <a href="{% url 'students' %}" class="btn">Explore Students</a>
+</section>
+
+<!-- Announcements Section -->
+{% if announcements %}
+<section class="content-section">
+    <h2>📢 Announcements & Notifications</h2>
+    <div style="display: grid; gap: 15px;">
+        {% for announcement in announcements %}
+            <div style="background: 
+            {% if announcement.announcement_type == 'info' %}#e3f2fd
+            {% elif announcement.announcement_type == 'warning' %}#fff3e0
+            {% elif announcement.announcement_type == 'success' %}#e8f5e9
+            {% else %}#ffebee{% endif %};
+            border-left: 5px solid 
+            {% if announcement.announcement_type == 'info' %}#2196f3
+            {% elif announcement.announcement_type == 'warning' %}#ff9800
+            {% elif announcement.announcement_type == 'success' %}#4caf50
+            {% else %}#f44336{% endif %};
+            padding: 15px; border-radius: 8px; margin-bottom: 10px;">
+                <p style="font-weight: 700; margin: 0; color: 
+                {% if announcement.announcement_type == 'info' %}#0d47a1
+                {% elif announcement.announcement_type == 'warning' %}#e65100
+                {% elif announcement.announcement_type == 'success' %}#1b5e20
+                {% else %}#b71c1c{% endif %};">
+                    {% if announcement.announcement_type == 'info' %}📘
+                    {% elif announcement.announcement_type == 'warning' %}⚠️
+                    {% elif announcement.announcement_type == 'success' %}✅
+                    {% else %}❌{% endif %}
+                    {{ announcement.title }}
+                </p>
+                <p style="margin: 8px 0 0 0; color: #333;">{{ announcement.message }}</p>
+                <p style="font-size: 12px; color: #666; margin: 8px 0 0 0;">{{ announcement.created_at|date:"M d, Y H:i" }}</p>
+            </div>
+        {% endfor %}
+    </div>
+</section>
+{% endif %}
+
+<!-- Dashboard Statistics -->
+<section class="dashboard-stats">
+    <div class="stat-card">
+        <h3>📚 Total Students</h3>
+        <p class="stat-number">{{ students_count|default:0 }}</p>
+    </div>
+    <div class="stat-card">
+        <h3>🏫 Active Courses</h3>
+        <p class="stat-number">{{ courses_count|default:0 }}</p>
+    </div>
+    <div class="stat-card">
+        <h3>⭐ Average Score</h3>
+        <p class="stat-number">{{ avg_score|default:"N/A" }}</p>
+    </div>
+    <div class="stat-card">
+        <h3>✅ Pass Rate</h3>
+        <p class="stat-number">{{ pass_rate|default:"0%" }}</p>
+    </div>
+</section>
+
+<!-- Portal Features -->
+<section class="features-section">
+    <h2>Portal Features & Capabilities</h2>
+    <div class="features-grid">
+        <a href="{% url 'analytics' %}" class="feature-card">
+            <h3>📊 Analytics & Reports</h3>
+            <p>View detailed performance metrics, top performers, course statistics, and comprehensive reports for each student.</p>
+        </a>
+        <a href="{% url 'students' %}" class="feature-card">
+            <h3>👥 Student Management</h3>
+            <p>Add, edit, and manage student information effortlessly. Complete CRUD operations with a user-friendly interface.</p>
+        </a>
+        <a href="{% url 'courses' %}" class="feature-card">
+            <h3>📚 Course Management</h3>
+            <p>Create and manage courses with detailed curriculum, student enrollment counts, and average performance metrics.</p>
+        </a>
+        <a href="{% url 'analytics' %}" class="feature-card">
+            <h3>📈 Progress Tracking</h3>
+            <p>Track student progress in real-time with interactive metrics, top student rankings, and performance insights.</p>
+        </a>
+        <a href="{% url 'search' %}" class="feature-card">
+            <h3>🔍 Advanced Search</h3>
+            <p>Quickly find students by name or course. Powerful search functionality for efficient student management.</p>
+        </a>
+        <a href="/admin/" class="feature-card">
+            <h3>⚙️ Admin Control</h3>
+            <p>Comprehensive admin panel to manage users, permissions, content, and all portal settings securely.</p>
+        </a>
+    </div>
+</section>
+
+<!-- Quick Links Section -->
+<section class="content-section">
+    <h2>Quick Access</h2>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
+        <a href="{% url 'students' %}" style="padding: 20px; background: linear-gradient(135deg, #667eea, #764ba2); color: white; border-radius: 8px; text-decoration: none; text-align: center; font-weight: 600; transition: all 0.3s; display: block;">
+            👥 View All Students
+        </a>
+        <a href="{% url 'add' %}" style="padding: 20px; background: linear-gradient(135deg, #f093fb, #f5576c); color: white; border-radius: 8px; text-decoration: none; text-align: center; font-weight: 600; transition: all 0.3s; display: block;">
+            ➕ Add New Student
+        </a>
+        <a href="{% url 'search' %}" style="padding: 20px; background: linear-gradient(135deg, #4facfe, #00f2fe); color: white; border-radius: 8px; text-decoration: none; text-align: center; font-weight: 600; transition: all 0.3s; display: block;">
+            🔍 Search Students
+        </a>
+        <a href="{% url 'analytics' %}" style="padding: 20px; background: linear-gradient(135deg, #43e97b, #38f9d7); color: white; border-radius: 8px; text-decoration: none; text-align: center; font-weight: 600; transition: all 0.3s; display: block;">
+            📊 View Analytics
+        </a>
+    </div>
+</section>
+
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- {% load static %}
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <link rel="stylesheet" href="{% static 'css/style.css'%}">
+        <title>Student Portal</title>
+    </head>
+
+    <body>
+        <h1>Welcome to Student Portal</h1>
+        <p>Find all your academic info & course details here.</p>
+
+        <h1>Course : {{title}}</h1>
+        <h2>Instructor : {{instructor}}</h2>
+    </body>
+</html> -->

@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<section class="content-section">
+    <h2>📊 Attendance Statistics</h2>
+    
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 30px;">
+        <div class="stat-card">
+            <h3>👥 Total Students</h3>
+            <p class="stat-number">{{ total_students }}</p>
+        </div>
+        <div class="stat-card">
+            <h3>📋 Total Records</h3>
+            <p class="stat-number">{{ stats|length }}</p>
+        </div>
+    </div>
+    
+    <div style="background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); overflow-x: auto;">
+        <table style="width: 100%; border-collapse: collapse;">
+            <thead>
+                <tr style="background: linear-gradient(135deg, #667eea, #764ba2); color: white;">
+                    <th style="padding: 12px; text-align: left; border: 1px solid #ddd;">Student Name</th>
+                    <th style="padding: 12px; text-align: center; border: 1px solid #ddd;">Total Days</th>
+                    <th style="padding: 12px; text-align: center; border: 1px solid #ddd;">✅ Present</th>
+                    <th style="padding: 12px; text-align: center; border: 1px solid #ddd;">❌ Absent</th>
+                    <th style="padding: 12px; text-align: center; border: 1px solid #ddd;">🏖️ Leave</th>
+                    <th style="padding: 12px; text-align: center; border: 1px solid #ddd;">⏰ Late</th>
+                    <th style="padding: 12px; text-align: center; border: 1px solid #ddd;">📊 Percentage</th>
+                    <th style="padding: 12px; text-align: center; border: 1px solid #ddd;">Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for stat in stats %}
+                    <tr style="border: 1px solid #ddd; {% cycle 'background: white;' 'background: #f9f9f9;' %}">
+                        <td style="padding: 12px; border: 1px solid #ddd; font-weight: 600;">
+                            <a href="{% url 'attendance_report' stat.student.id %}" style="color: #667eea; text-decoration: none;">
+                                {{ stat.student.name }}
+                            </a>
+                        </td>
+                        <td style="padding: 12px; border: 1px solid #ddd; text-align: center; font-weight: 600;">{{ stat.total }}</td>
+                        <td style="padding: 12px; border: 1px solid #ddd; text-align: center;">
+                            <span style="background: #e8f5e9; color: #2e7d32; padding: 6px 12px; border-radius: 4px; font-weight: 600;">{{ stat.present }}</span>
+                        </td>
+                        <td style="padding: 12px; border: 1px solid #ddd; text-align: center;">
+                            <span style="background: #ffebee; color: #c62828; padding: 6px 12px; border-radius: 4px; font-weight: 600;">{{ stat.absent }}</span>
+                        </td>
+                        <td style="padding: 12px; border: 1px solid #ddd; text-align: center;">
+                            <span style="background: #e3f2fd; color: #1565c0; padding: 6px 12px; border-radius: 4px; font-weight: 600;">{{ stat.leave }}</span>
+                        </td>
+                        <td style="padding: 12px; border: 1px solid #ddd; text-align: center;">
+                            <span style="background: #fff3e0; color: #e65100; padding: 6px 12px; border-radius: 4px; font-weight: 600;">{{ stat.late }}</span>
+                        </td>
+                        <td style="padding: 12px; border: 1px solid #ddd; text-align: center; font-weight: 700;">
+                            <span style="background: {% if stat.percentage >= 80 %}#4caf50{% elif stat.percentage >= 60 %}#ff9800{% else %}#f44336{% endif %}; color: white; padding: 6px 12px; border-radius: 4px;">
+                                {{ stat.percentage }}%
+                            </span>
+                        </td>
+                        <td style="padding: 12px; border: 1px solid #ddd; text-align: center;">
+                            {% if stat.percentage >= 80 %}
+                                <span style="color: #4caf50; font-weight: 600;">✅ Good</span>
+                            {% elif stat.percentage >= 60 %}
+                                <span style="color: #ff9800; font-weight: 600;">⚠️ Fair</span>
+                            {% else %}
+                                <span style="color: #f44336; font-weight: 600;">❌ Poor</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="8" style="padding: 30px; text-align: center; color: #666;">No attendance data available</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    
+    <div style="display: flex; gap: 10px; margin-top: 20px;">
+        <a href="{% url 'export_attendance' %}" style="padding: 12px 30px; background: #4caf50; color: white; border-radius: 4px; text-decoration: none; font-weight: 600;">📥 Export All Data</a>
+        <a href="{% url 'attendance' %}" style="padding: 12px 30px; background: #999; color: white; border-radius: 4px; text-decoration: none; font-weight: 600;">← Back</a>
+    </div>
+</section>
+
+{% endblock %}

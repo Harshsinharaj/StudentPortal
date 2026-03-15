@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<section class="content-section">
+    <h2>🏆 Certificate - {{ certificate.student.name }}</h2>
+    
+    <div style="background: linear-gradient(135deg, #f093fb, #f5576c); color: white; padding: 50px; border-radius: 8px; margin: 30px 0; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">
+        <h1 style="margin: 20px 0; font-size: 2.5em;">🏆 Certificate of {{ certificate.get_certificate_type_display }}</h1>
+        <p style="font-size: 1.3em; margin: 20px 0;">This is to certify that</p>
+        <h2 style="font-size: 2em; margin: 30px 0;">{{ certificate.student.name }}</h2>
+        <p style="font-size: 1.1em; margin: 20px 0;">has successfully completed</p>
+        <p style="font-size: 1.3em; font-weight: 600; margin: 20px 0;">{{ certificate.course }}</p>
+        <p style="font-size: 0.95em; margin: 30px 0;">Issued on {{ certificate.issue_date|date:"F d, Y" }}</p>
+        <div style="border-top: 2px solid rgba(255,255,255,0.5); margin-top: 40px; padding-top: 20px;">
+            <p style="margin: 5px 0;">Student Portal Management System</p>
+            <p style="margin: 5px 0; font-size: 0.9em;">© 2026 All Rights Reserved</p>
+        </div>
+    </div>
+    
+    <div style="background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+        <h3>📋 Certificate Details</h3>
+        <table style="width: 100%; border-collapse: collapse;">
+            <tr style="border-bottom: 1px solid #ddd;">
+                <td style="padding: 12px; font-weight: 600;">Student Name:</td>
+                <td style="padding: 12px;">{{ certificate.student.name }}</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #ddd;">
+                <td style="padding: 12px; font-weight: 600;">Course:</td>
+                <td style="padding: 12px;">{{ certificate.course }}</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #ddd;">
+                <td style="padding: 12px; font-weight: 600;">Certificate Type:</td>
+                <td style="padding: 12px;">{{ certificate.get_certificate_type_display }}</td>
+            </tr>
+            <tr>
+                <td style="padding: 12px; font-weight: 600;">Issue Date:</td>
+                <td style="padding: 12px;">{{ certificate.issue_date|date:"F d, Y" }}</td>
+            </tr>
+        </table>
+    </div>
+    
+    <div style="margin-top: 20px; text-align: center;">
+        <button onclick="window.print()" style="padding: 12px 30px; background: #667eea; color: white; border: none; border-radius: 4px; font-weight: 600; cursor: pointer; font-size: 1em;">🖨️ Print Certificate</button>
+        <a href="{% url 'certificates' %}" style="display: inline-block; margin-left: 10px; padding: 12px 30px; background: #999; color: white; border-radius: 4px; text-decoration: none; font-weight: 600;">← Back</a>
+    </div>
+</section>
+
+{% endblock %}

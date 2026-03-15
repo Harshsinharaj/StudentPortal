@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<section class="content-section">
+    <h2>📄 {{ assignment.title }}</h2>
+    
+    <div style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 20px; border-radius: 8px; margin-bottom: 30px;">
+        <p style="margin: 5px 0;"><strong>📚 Course:</strong> {{ assignment.course }}</p>
+        <p style="margin: 5px 0;"><strong>⭐ Total Marks:</strong> {{ assignment.total_marks }}</p>
+        <p style="margin: 5px 0;"><strong>📅 Due Date:</strong> {{ assignment.due_date|date:"M d, Y H:i" }}</p>
+        <p style="margin: 5px 0;"><strong>📝 Created By:</strong> {{ assignment.created_by }}</p>
+        <hr style="opacity: 0.3;">
+        <p style="margin: 15px 0 0 0;">{{ assignment.description }}</p>
+    </div>
+    
+    {% if can_submit %}
+        <a href="{% url 'submit_assignment' assignment.id %}" style="display: inline-block; padding: 12px 30px; background: #4caf50; color: white; border-radius: 4px; text-decoration: none; font-weight: 600; margin-bottom: 30px;">📤 Submit Assignment</a>
+    {% endif %}
+    
+    <h3>📤 Submissions ({{ submissions|length }})</h3>
+    <table style="width: 100%; border-collapse: collapse;">
+        <thead>
+            <tr style="background: #f0f0f0;">
+                <th style="padding: 12px; text-align: left; border: 1px solid #ddd;">Student</th>
+                <th style="padding: 12px; text-align: center; border: 1px solid #ddd;">Marks</th>
+                <th style="padding: 12px; text-align: left; border: 1px solid #ddd;">Submitted At</th>
+                <th style="padding: 12px; text-align: center; border: 1px solid #ddd;">Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for submission in submissions %}
+                <tr style="border: 1px solid #ddd;">
+                    <td style="padding: 12px; border: 1px solid #ddd;">{{ submission.student.name }}</td>
+                    <td style="padding: 12px; border: 1px solid #ddd; text-align: center;">{{ submission.marks_obtained|default:"—" }}</td>
+                    <td style="padding: 12px; border: 1px solid #ddd;">{{ submission.submitted_at|date:"M d, Y H:i" }}</td>
+                    <td style="padding: 12px; border: 1px solid #ddd; text-align: center;">
+                        <span style="background: {% if submission.is_late %}#ff9800{% else %}#4caf50{% endif %}; color: white; padding: 4px 8px; border-radius: 3px; font-size: 0.9em;">
+                            {% if submission.is_late %}⏰ Late{% else %}✅ Submitted{% endif %}
+                        </span>
+                    </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="4" style="padding: 20px; text-align: center; color: #666;">No submissions yet</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</section>
+
+{% endblock %}

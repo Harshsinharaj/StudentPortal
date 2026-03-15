@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<section class="content-section">
+    <h2>📊 Performance Report - {{ student.name }}</h2>
+    
+    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 30px;">
+        <div class="stat-card">
+            <h3>⭐ Test Marks</h3>
+            <p class="stat-number">{{ student.marks }}</p>
+        </div>
+        <div class="stat-card">
+            <h3>✅ Assignments Done</h3>
+            <p class="stat-number">{{ metric.completed_assignments }}/{{ metric.total_assignments }}</p>
+        </div>
+        <div class="stat-card">
+            <h3>📝 Assignment Avg</h3>
+            <p class="stat-number">{{ metric.average_assignment_marks|floatformat:1 }}</p>
+        </div>
+        <div class="stat-card">
+            <h3>📋 Attendance</h3>
+            <p class="stat-number">{{ metric.attendance_percentage|floatformat:1 }}%</p>
+        </div>
+    </div>
+    
+    <h3>📅 Recent Attendance</h3>
+    <table style="width: 100%; border-collapse: collapse;">
+        <thead>
+            <tr style="background: #f0f0f0;">
+                <th style="padding: 12px; text-align: left; border: 1px solid #ddd;">Date</th>
+                <th style="padding: 12px; text-align: left; border: 1px solid #ddd;">Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for record in attendance_records %}
+                <tr style="border: 1px solid #ddd; {% if record.status == 'absent' %}background: #ffe6e6{% elif record.status == 'present' %}background: #e6ffe6{% endif %}">
+                    <td style="padding: 12px; border: 1px solid #ddd;">{{ record.date|date:"M d, Y" }}</td>
+                    <td style="padding: 12px; border: 1px solid #ddd; font-weight: 600;">
+                        {% if record.status == 'present' %}✅ Present{% elif record.status == 'absent' %}❌ Absent{% elif record.status == 'leave' %}🏖️ Leave{% else %}⏰ Late{% endif %}
+                    </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="2" style="padding: 20px; text-align: center; color: #666;">No attendance records</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    <a href="{% url 'performance_charts' %}" style="display: inline-block; margin-top: 20px; padding: 10px 20px; background: #667eea; color: white; border-radius: 4px; text-decoration: none;">← Back to Charts</a>
+</section>
+
+{% endblock %}

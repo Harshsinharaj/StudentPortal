@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<section class="hero">
+    <h1>➕ Add New Student</h1>
+    <p>Fill in the details to add a new student to the portal</p>
+</section>
+
+<section class="content-section" style="max-width: 600px; margin: 40px auto;">
+    {% if error %}
+    <div style="background: #fee2e2; color: #991b1b; padding: 15px; border-radius: 8px; margin-bottom: 20px; border-left: 5px solid #dc2626;">
+        ⚠️ {{ error }}
+    </div>
+    {% endif %}
+
+    <form method="POST" enctype="multipart/form-data" class="form">
+        {% csrf_token %}
+
+        <div>
+            <label style="display: block; color: #333; font-weight: 600; margin-bottom: 8px;">📸 Profile Picture</label>
+            <input type="file" name="profile_pic" accept="image/*" style="width: 100%; padding: 12px 16px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 16px;">
+        </div>
+
+        <div>
+            <label style="display: block; color: #333; font-weight: 600; margin-bottom: 8px;">👤 Student Name</label>
+            <input type="text" name="name" placeholder="Enter student name" required style="width: 100%; padding: 12px 16px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 16px; transition: all 0.3s;" onfocus="this.style.borderColor='#667eea'; this.style.boxShadow='0 0 0 3px rgba(102, 126, 234, 0.1)'" onblur="this.style.borderColor='#e0e0e0'; this.style.boxShadow='none'">
+        </div>
+
+        <div>
+            <label style="display: block; color: #333; font-weight: 600; margin-bottom: 8px;">📖 Course</label>
+            <input type="text" name="course" placeholder="e.g., Python, Django, JavaScript" required style="width: 100%; padding: 12px 16px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 16px; transition: all 0.3s;" onfocus="this.style.borderColor='#667eea'; this.style.boxShadow='0 0 0 3px rgba(102, 126, 234, 0.1)'" onblur="this.style.borderColor='#e0e0e0'; this.style.boxShadow='none'">
+        </div>
+
+        <div>
+            <label style="display: block; color: #333; font-weight: 600; margin-bottom: 8px;">📊 Marks (0-100)</label>
+            <input type="number" name="marks" placeholder="Enter marks" required min="0" max="100" style="width: 100%; padding: 12px 16px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 16px; transition: all 0.3s;" onfocus="this.style.borderColor='#667eea'; this.style.boxShadow='0 0 0 3px rgba(102, 126, 234, 0.1)'" onblur="this.style.borderColor='#e0e0e0'; this.style.boxShadow='none'">
+        </div>
+
+        <div>
+            <label style="display: block; color: #333; font-weight: 600; margin-bottom: 8px;">👤 Age</label>
+            <input type="number" name="age" placeholder="Enter age" required min="5" max="80" style="width: 100%; padding: 12px 16px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 16px; transition: all 0.3s;" onfocus="this.style.borderColor='#667eea'; this.style.boxShadow='0 0 0 3px rgba(102, 126, 234, 0.1)'" onblur="this.style.borderColor='#e0e0e0'; this.style.boxShadow='none'">
+        </div>
+
+        <div style="display: flex; gap: 10px; margin-top: 30px;">
+            <button type="submit" class="btn" style="margin-top: 0; flex: 1;">✓ Add Student</button>
+            <a href="{% url 'students' %}" class="btn" style="margin-top: 0; background: #6b7280; flex: 1; text-align: center;">⬅️ Cancel</a>
+        </div>
+    </form>
+</section>
+
+{% endblock %}
