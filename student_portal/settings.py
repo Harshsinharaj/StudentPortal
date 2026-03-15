@@ -26,7 +26,12 @@ SECRET_KEY = 'django-insecure-h5a3!)l(_tj!1%fg8!c^+0mh$jo8#_t+@$ahm*3f2d^2!#!@k-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['studentportal-utb9.onrender.com', 'localhost', '127.0.0.1']
+# Allow Render's hostname and local development hosts. Render can override via the ALLOWED_HOSTS env var.
+allowed_hosts_env = os.environ.get('ALLOWED_HOSTS')
+if allowed_hosts_env:
+    ALLOWED_HOSTS = [h.strip() for h in allowed_hosts_env.split(',') if h.strip()]
+else:
+    ALLOWED_HOSTS = ['studentportal-utb9.onrender.com', 'localhost', '127.0.0.1']
 
 
 # Application definition
